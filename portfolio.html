@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shidhant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    /* Apple-inspired system colors — dark base */
+    --bg:            #000000;
+    --text-primary:   rgba(255,255,255,0.94);
+    --text-secondary: rgba(255,255,255,0.50);
+    --text-tertiary:  rgba(255,255,255,0.28);
+    --text-link:      rgba(255,255,255,0.70);
+    --divider:        rgba(255,255,255,0.055);
+    --mesh-a:         rgba(10,132,255,0.06);
+    --mesh-b:         rgba(48,209,88,0.04);
+
+    /* Apple accent — Blue */
+    --accent:         #0a84ff;
+    --accent-soft:    rgba(10,132,255,0.15);
+
+    /* Toggle button */
+    --toggle-bg:      rgba(255,255,255,0.08);
+    --toggle-border:  rgba(255,255,255,0.14);
+    --toggle-icon:    rgba(255,255,255,0.50);
+
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    --max-w: 620px;
+    --pad: 48px;
+  }
+
+  /* ── Light theme ── */
+  :root.light {
+    --bg:            #ffffff;
+    --text-primary:   rgba(0,0,0,0.88);
+    --text-secondary: rgba(0,0,0,0.48);
+    --text-tertiary:  rgba(0,0,0,0.26);
+    --text-link:      rgba(0,0,0,0.62);
+    --divider:        rgba(0,0,0,0.07);
+    --mesh-a:         rgba(10,132,255,0.05);
+    --mesh-b:         rgba(48,209,88,0.03);
+    --accent:         #0071e3;
+    --accent-soft:    rgba(0,113,227,0.10);
+    --toggle-bg:      rgba(0,0,0,0.05);
+    --toggle-border:  rgba(0,0,0,0.10);
+    --toggle-icon:    rgba(0,0,0,0.40);
+  }
+
+  html { -webkit-font-smoothing: antialiased; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+    transition: background 0.35s ease, color 0.35s ease;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* ── Mesh background — very subtle ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 80% 60% at 15% 10%,  var(--mesh-a) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 85% 85%,  var(--mesh-b) 0%, transparent 55%);
+    transition: background 0.4s ease;
+  }
+
+  /* ── Layout ── */
+  .wrap {
+    position: relative; z-index: 1;
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: 0 var(--pad);
+  }
+
+  /* ── Nav ── */
+  nav {
+    padding: 36px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    margin-bottom: 72px;
+  }
+  .nav-links { display: flex; gap: 28px; flex: 1; }
+  nav a {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    letter-spacing: -0.01em;
+    transition: color 0.18s ease;
+    position: relative;
+  }
+  nav a::after {
+    content: '';
+    position: absolute; left: 0; bottom: -2px;
+    width: 0; height: 1px;
+    background: var(--accent);
+    transition: width 0.22s ease;
+  }
+  nav a:hover { color: var(--text-primary); }
+  nav a:hover::after { width: 100%; }
+
+  /* ── Hero ── */
+  .hero { margin-bottom: 52px; }
+
+  .hero-name {
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text-primary);
+    letter-spacing: -0.025em;
+    margin-bottom: 20px;
+  }
+
+  .hero-bio {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    max-width: 520px;
+  }
+
+  /* ── Section header ── */
+  .section-title {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    margin-bottom: 16px;
+    margin-top: 52px;
+  }
+
+  /* ── Theme toggle ── */
+  .theme-toggle {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 1px solid var(--toggle-border);
+    background: var(--toggle-bg);
+    color: var(--toggle-icon);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+    margin-left: auto;
+  }
+  .theme-toggle:hover {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: rotate(20deg);
+  }
+  .theme-toggle svg { width: 15px; height: 15px; }
+  .icon-moon { display: block; }
+  .icon-sun  { display: none; }
+  :root.light .icon-moon { display: none; }
+  :root.light .icon-sun  { display: block; }
+
+  /* ── Post / project list ── */
+  .list { display: flex; flex-direction: column; }
+
+  .list-item {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--divider);
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+  .list-item:first-child { border-top: 1px solid var(--divider); }
+  .list-item:hover .item-title { color: var(--accent); }
+  .list-item:hover .item-date  { color: var(--text-secondary); }
+
+  .item-date {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-tertiary);
+    white-space: nowrap;
+    min-width: 88px;
+    transition: color 0.18s ease;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  .item-title {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text-link);
+    letter-spacing: -0.012em;
+    line-height: 1.4;
+    transition: color 0.18s ease;
+  }
+
+  /* ── Projects ── */
+  .project-item {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--divider);
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+  .project-item:first-child { border-top: 1px solid var(--divider); }
+  .project-item:hover .item-title { color: var(--accent); }
+
+  .project-right {
+    display: flex; align-items: center; gap: 12px;
+    flex-shrink: 0;
+  }
+  .project-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    letter-spacing: 0.03em;
+    font-weight: 500;
+  }
+  .project-arrow {
+    font-size: 13px;
+    color: var(--text-tertiary);
+    transition: transform 0.18s ease, color 0.18s ease;
+  }
+  .project-item:hover .project-arrow {
+    transform: translate(2px, -2px);
+    color: var(--accent);
+  }
+
+  /* ── Footer links ── */
+  .footer-links {
+    margin-top: 56px;
+    margin-bottom: 8px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .footer-links a {
+    font-size: 13px;
+    color: var(--text-tertiary);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: color 0.18s ease;
+    letter-spacing: -0.01em;
+  }
+  .footer-links a:hover { color: var(--text-primary); }
+  .footer-links .arrow { font-size: 11px; }
+
+  footer {
+    padding: 16px 0 52px;
+    font-size: 13px;
+    color: var(--text-tertiary);
+    letter-spacing: -0.01em;
+  }
+
+  /* ── Divider ── */
+  hr { border: none; border-top: 1px solid var(--divider); }
+
+  /* ── Page transitions ── */
+  .wrap { animation: fadeIn 0.5s ease both; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── Active nav state ── */
+  nav a.active { color: var(--text-primary); }
+  nav a.active::after { width: 100%; }
+
+  @media (max-width: 480px) {
+    :root { --pad: 24px; }
+    nav { gap: 20px; }
+    .item-date { min-width: 72px; font-size: 12px; }
+    .item-title { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav>
+    <div class="nav-links">
+      <a href="#" class="active" onclick="showPage('home',this)">home</a>
+      <a href="#" onclick="showPage('about',this)">about</a>
+      <a href="#" onclick="showPage('projects',this)">projects</a>
+     
+      
+      
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1" x2="12" y2="3"/>
+        <line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/>
+        <line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    </button>
+  </nav>
+
+  <!-- HOME -->
+  <div id="page-home">
+    <section class="hero">
+      <h1 class="hero-name">Shidhant</h1>
+      <p class="hero-bio">
+        I am a Software Engineer interested in AI systems, automation, and backend development. 
+        I work with Python, FastAPI, Docker, Linux, and modern LLM tools to build practical, scalable solutions.
+      </p>
+    </section>
+
+
+    <p class="section-title">Experience</p>
+    <div class="list">
+      <div class="list-item">
+        <span class="item-date">2025 — Present</span>
+        <span class="item-title">Software Engineer · Brandforage</span>
+      </div>
+    </div>
+    <p class="section-title">Research Project</p>
+    <div class="list">
+      <div class="project-item">
+        <a href="https://www.researchgate.net/publication/405867738_Epiphenomenal_Structures_in_Hypergraph_Boltzmann_Machines"><span class="item-title">Epiphenomenal Structures in Hypergraph Boltzmann Machines</span>
+        <div class="project-right">
+          <span class="project-arrow">↗</span></a>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="footer-links">
+      <a href="https://github.com/ShidhantSah">↗ github</a>
+      <a href="https://github.com/vercel/examples/tree/main/solutions/blog">↗ view source</a>
+    </div>
+    <footer>© 2026 MIT Licensed</footer>
+  </div>
+
+
+
+  <!-- PROJECTS -->
+  <div id="page-projects" style="display:none">
+    <section class="hero">
+      <h1 class="hero-name">Projects</h1>
+      <p class="hero-bio">
+        A selection of things I've built — open source libraries, side projects, and internal tools.
+      </p>
+    </section>
+
+    <div class="list">
+      <div class="project-item">
+        <span class="item-title">NeighbourScope — Data reports for real estate investement</span>
+        <div class="project-right">
+          <span class="project-tag">Python · FastAPI</span>
+          <span class="project-arrow">↗</span>
+        </div>
+      </div>
+      <div class="project-item">
+        <span class="item-title">Mindfull — Query Resolution System</span>
+        <div class="project-right">
+          <span class="project-tag">Python · RAG </span>
+          <span class="project-arrow">↗</span>
+        </div>
+      </div>
+     
+    </div>
+
+    <div class="footer-links">
+      <a href="https://github.com/ShidhantSah">↗ github</a>
+    </div>
+    <footer>© 2026 MIT Licensed</footer>
+  </div>
+
+  <!-- ABOUT -->
+  <div id="page-about" style="display:none">
+    <section class="hero">
+      <h1 class="hero-name">About</h1>
+      <p class="hero-bio">
+        I'm a software engineer based in Bangalore. I work on building AI systems and Infrastructure. 
+        Before this I was an intern at Soul AI.<br><br>
+        I hold a B.S. in Computer Science and maths from Christ University. Outside of work, 
+        I write about things I find interesting, 
+        and spend too much time tinkering.
+      </p>
+    </section>
+
+    <p class="section-title">Experience</p>
+    <div class="list">
+      <div class="list-item">
+        <span class="item-date">2025 — Present</span>
+        <span class="item-title">Software Engineer · Brandforage</span>
+      </div>
+      <div class="list-item">
+        <span class="item-date">2025 — 2025</span>
+        <span class="item-title">AI Trainer · Soul AI</span>
+      </div>
+    </div>
+
+    <div class="footer-links">
+      <a href="https://github.com/ShidhantSah">↗ github</a>
+      <a href="www.linkedin.com/in/shidhant-sah">↗ linkedin</a>
+      <a href="https://x.com/Siddhantology">↗ twitter</a>
+      <a href="mailto:shidhant.sah12@gmail.com">↗ email</a>
+    </div>
+    <footer>© 2026 MIT Licensed</footer>
+  </div>
+
+</div>
+
+<script>
+function showPage(name, navEl) {
+  document.querySelectorAll('[id^="page-"]').forEach(p => p.style.display = 'none');
+  const target = document.getElementById('page-' + name);
+  if (target) {
+    target.style.display = 'block';
+    target.style.animation = 'none';
+    target.offsetHeight;
+    target.style.animation = 'fadeIn 0.32s ease both';
+  }
+  document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+  if (navEl) navEl.classList.add('active');
+  return false;
+}
+
+function toggleTheme() {
+  const root = document.documentElement;
+  const isLight = root.classList.toggle('light');
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+}
+
+// Restore saved preference
+(function() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'light') document.documentElement.classList.add('light');
+})();
+
+const style = document.createElement('style');
+style.textContent = '[id^="page-"] { animation: fadeIn 0.32s ease both; }';
+document.head.appendChild(style);
+</script>
+</body>
+</html>
